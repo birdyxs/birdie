@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - x16</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html><head>
+<script type="text/javascript">
+  
+var colours=new Array('#ffefef', '#ffefef', '#def4f9', '#ffefef', '#def4f9'); 
+var minisize=16; 
+var maxisize=28; 
+var hearts=66; 
+var over_or_under="over"; 
+
+var x=ox=400;
+var y=oy=300;
+var swide=800;
+var shigh=600;
+var sleft=sdown=0;
+var herz=new Array();
+var herzx=new Array();
+var herzy=new Array();
+var herzs=new Array();
+var kiss=false;
+
+if (typeof('addRVLoadEvent')!='function') function addRVLoadEvent(funky) {
+  var oldonload=window.onload;
+  if (typeof(oldonload)!='function') window.onload=funky;
+  else window.onload=function() {
+    if (oldonload) oldonload();
+    funky();
+  }
+}
+
+addRVLoadEvent(mwah);
+
+function mwah() { if (document.getElementById) {
+  var i, heart;
+  for (i=0; i<hearts; i++) {
+    heart=createDiv("auto", "auto");
+    heart.style.visibility="hidden";
+	heart.style.zIndex=(over_or_under=="over")?"1001":"0";
+    heart.style.color=colours[i%colours.length];
+	heart.style.pointerEvents="none";
+    if (navigator.appName=="Microsoft Internet Explorer") heart.style.filter="alpha(opacity=75)";
+    else heart.style.opacity=0.75;
+    heart.appendChild(document.createTextNode(String.fromCharCode(9829)));
+    document.body.appendChild(heart);
+    herz[i]=heart;
+	herzy[i]=false;
+  }
+  set_scroll();
+  set_width();
+  herzle();
+}}
+
+function herzle() {
+  var c;
+  if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+    ox=x;
+    oy=y;
+    for (c=0; c<hearts; c++) if (herzy[c]===false) {
+	  herz[c].firstChild.nodeValue=String.fromCharCode(9829);
+      herz[c].style.left=(herzx[c]=x-minisize/2)+"px";
+      herz[c].style.top=(herzy[c]=y-minisize)+"px";
+      herz[c].style.fontSize=minisize+"px";
+	  herz[c].style.fontWeight='normal';
+      herz[c].style.visibility='visible';
+      herzs[c]=minisize;
+      break;
+    }
+  }
+  for (c=0; c<hearts; c++) if (herzy[c]!==false) blow_me_a_kiss(c);
+  setTimeout("herzle()", 40);
+}
+
+document.onmousedown=pucker;
+document.onmouseup=function(){clearTimeout(kiss);};
+
+function pucker() {
+  ox=-1;
+  oy=-1;
+  kiss=setTimeout('pucker()', 100);
+}
+
+function blow_me_a_kiss(i) {
+  herzy[i]-=herzs[i]/minisize+i%2;
+  herzx[i]+=(i%5-2)/5;
+  if (herzy[i]<sdown-herzs[i] || herzx[i]<sleft-herzs[i] || herzx[i]>sleft+swide-herzs[i]) {
+    herz[i].style.visibility="hidden";
+    herzy[i]=false;
+  }
+  else if (herzs[i]>minisize+2 && Math.random()<.5/hearts) break_my_heart(i);
+  else {
+    if (Math.random()<maxisize/herzy[i] && herzs[i]<maxisize) herz[i].style.fontSize=(++herzs[i])+"px";
+    herz[i].style.top=herzy[i]+"px";
+    herz[i].style.left=herzx[i]+"px";
+  }
+}
+
+function break_my_heart(i) {
+  var t;
+  herz[i].firstChild.nodeValue=String.fromCharCode(9676);
+  herz[i].style.fontWeight='bold';
+  herzy[i]=false;
+  for (t=herzs[i]; t<=maxisize; t++) setTimeout('herz['+i+'].style.fontSize="'+t+'px"', 60*(t-herzs[i]));
+  setTimeout('herz['+i+'].style.visibility="hidden";', 60*(t-herzs[i]));
+}
+
+document.onmousemove=mouse;
+function mouse(e) {
+  if (e) {
+    y=e.pageY;
+    x=e.pageX;
+  }
+  else {
+    set_scroll();
+    y=event.y+sdown;
+    x=event.x+sleft;
+  }
+}
+
+window.onresize=set_width;
+function set_width() {
+  var sw_min=999999;
+  var sh_min=999999;
+  if (document.documentElement && document.documentElement.clientWidth) {
+    if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+    if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+  }
+  if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+    if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+    if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+  }
+  if (document.body.clientWidth) {
+    if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+    if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+  }
+  if (sw_min==999999 || sh_min==999999) {
+    sw_min=800;
+    sh_min=600;
+  }
+  swide=sw_min;
+  shigh=sh_min;
+}
+
+window.onscroll=set_scroll;
+function set_scroll() {
+  if (typeof(self.pageYOffset)=='number') {
+    sdown=self.pageYOffset;
+    sleft=self.pageXOffset;
+  }
+  else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+    sdown=document.body.scrollTop;
+    sleft=document.body.scrollLeft;
+  }
+  else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+    sleft=document.documentElement.scrollLeft;
+    sdown=document.documentElement.scrollTop;
+  }
+  else {
+    sdown=0;
+    sleft=0;
+  }
+}
+
+function createDiv(height, width) {
+  var div=document.createElement("div");
+  div.style.position="absolute";
+  div.style.height=height;
+  div.style.width=width;
+  div.style.overflow="hidden";
+  div.style.backgroundColor="transparent";
+  return (div);
+}
+
+</script>
+
+<title>x16</title>
+<link rel="stylesheet" href="https://static.tumblr.com/i5s2zks/6kOohwlux/pe-icon-7-stroke.css">
+
+<script>
+
+(function($){
+
+$(document).ready(function(){
+
+$("a[title]").style_my_tooltips({
+
+tip_follows_cursor:true,
+
+tip_delay_time:30,
+
+tip_fade_speed:300,
+
+attribute:"title"
+
+});
+
+});
+
+})(jQuery);
+
+</script>
+
+
+<style type="text/css">
+
+#s-m-t-tooltip{
+max-width:300px;
+margin:15px;
+padding:2px 8px;
+border:1px solid #DDD;
+border-radius:4px;
+background:#fff;
+color:#AAA;
+z-index:999999;
+font-size:9px;
+letter-spacing:.5px;
+text-transform:lowercase;
+box-shadow:1px 1px 3px rgba(0,0,0,.1);}
+
+
+::selection {
+       background:#fff;
+       color:#c09992;
+   
+}
+
+blockquote {
+padding-left:15px;
+padding-right:3px;
+margin:0px;
+border-left:1px solid #CCCCCC;
+margin-left:15px;
+}
+
+ul {
+padding:0px;margin:5px;list-style-type:none;
+}
+
+ul li {
+position:relative;padding-left:20px;
+}
+
+ul li:before {
+content:'';
+position:absolute;
+display:block;
+top:8px;
+left:0px;
+width:10px;
+height:1px;
+background:#CCCCCC; 
+}
+
+body {
+background:#141414; 
+color:#8c8c8c;
+font-family:karla, sans-serif;
+line-height:15px;
+-moz-osx-font-smoothing:grayscale;
+-webkit-font-smoothing:antialiased;
+font-smoothing:antialiased;  
+font-size:11px;
+text-align:left;
+margin:0;
+
+}
+
+
+a {
+color:#c09992;
+text-decoration:none;-moz-transition-duration: 0.5s;-o-transition-duration: 0.5s;-webkit-transition-duration: 0.5s;transition-duration: 0.5s;
+}
+
+a:hover {
+text-decoration:none;color:#666666;-moz-transition-duration: 0.5s;-o-transition-duration: 0.5s;-webkit-transition-duration: 0.5s;transition-duration: 0.5s;}
+
+
+*, body, img { cursor:url(https://secure.static.tumblr.com/vmteopo/Eggo12azo/small_white_cursor.png), auto;}
+ 
+a, a:hover, a:active, a i {cursor:url(https://secure.static.tumblr.com/vmteopo/kOPo12azz/small_white_cursor_help.png), help; }
+
+
+img{
+opacity:1;
+border:none;
+-moz-transition-duration: 0.5s;-o-transition-duration: 0.5s;-webkit-transition-duration: 0.5s;transition-duration: 0.5s;
+text-decoration:none;
+
+}
+ 
+img:hover {
+  opacity:1;-webkit-filter:none;-moz-transition-duration: 0.5s;-o-transition-duration: 0.5s;-webkit-transition-duration: 0.5s;transition-duration: 0.5s;
+      
+}
+ 
+iframe.photoset {
+  opacity:1;-webkit-filter:none;-moz-transition-duration: 0.5s;-o-transition-duration: 0.5s;-webkit-transition-duration: 0.5s;transition-duration: 0.5s;
+}
+ 
+iframe.photoset:hover {
+  opacity:1;-webkit-filter:none;-moz-transition-duration: 0.5s;-o-transition-duration: 0.5s;-webkit-transition-duration: 0.5s;transition-duration: 0.5s;    
+}
+
+small {
+font-size:9px;}
+
+big {
+font-size:12px;}
+
+
+#title {font-size:12px;
+line-height:18px;
+font-weight:bold;
+margin-bottom:10px;
+text-transform:uppercase;
+text-align:left;}
+
+
+.sidebar {text-align:left;
+position:fixed;
+margin-left:0px;
+margin-top:200px;
+width:127px;
+}
+
+#sidebarim {margin-bottom:20px;margin-left:-90px;margin-top:5px;position:absolute;}
+
+#sidebarim img {width:70px;border-radius:100%;border-radius:0 50px 50px 50px;}
+
+#blogt {font-size:18px;
+font-weight:bold; border-top:1px solid #e3cac3;padding-top:8px;
+    
+}
+
+#blogt a{
+    color:#e3cac3;border-top:3px solid #e3cac3 ;border-bottom:none;padding-top:4px;
+}
+
+
+#links {
+line-height:16px;
+text-transform:lowercase;
+}
+
+
+#links a {
+margin-right:10px;
+display:inline-block;
+margin-bottom:5px;
+}
+
+#description {
+margin-top:10px;
+}
+
+#con {
+left:60%;
+margin-left:-250px;
+position:absolute;
+}
+
+#entries {
+margin-top:150px;
+width:500px;
+}
+
+
+
+.posts {
+width:350px;
+
+margin-bottom:105px;
+
+
+
+}
+.posts img {
+max-width:100%;
+}
+
+.posts img,.posts li, .posts blockquote {max-width:auto;max-height:auto;}
+.caption {width:100%;margin-top:none;overflow:auto;padding:10px;padding-bottom:none;background:;width:auto;
+ 
+}
+
+.posts:hover .tags{
+    opacity:1;-webkit-filter:none;-moz-transition-duration: 0.5s;-o-transition-duration: 0.5s;-webkit-transition-duration: 0.5s;transition-duration: 0.5s;
+}
+ 
+blockquote img {width:auto;height:auto;
+}
+
+#titlequote{text-align:left;
+font-size:14px;
+line-height:18px;
+font-weight:bold;
+}
+#source {
+margin-top:15px;
+margin-left:15px;}
+
+
+.player {
+width:25px; 
+height:25px; 
+overflow:hidden; 
+position:absolute;
+background:white;}
+
+.audioinfo {
+margin-left:50px;
+}
+
+.q {margin-bottom:10px;text-align:left;
+}
+.as {
+font-weight:bold;text-align:left;
+
+}
+.as a {
+    border:none;
+}
+
+.a {
+margin-top:10px;padding-left:8px;text-align:left;
+}
+
+
+
+
+.chat ol {
+padding:0;
+list-style:none;
+}
+.line {padding:5px 0;}
+
+.label {font-weight:bold;
+}
+
+
+
+#permalink {
+margin-top:15px;
+font-size:9px;letter-spacing:.5px;
+padding-top:6px;text-align:right;color:#8c8c8c;
+}
+
+#permalink a {border:none;padding-top:5px;color:#b6b6b6;
+}
+
+
+
+::-webkit-scrollbar {
+    width:17px;
+    height:17px;
+}
+::-webkit-scrollbar {
+    background-color:#fff;
+}
+::-webkit-scrollbar-track {
+    border:8px solid #fff;
+    background-color:#e5e3e3;
+}
+::-webkit-scrollbar-thumb {
+    border:8px solid #fff;
+    background-color:#c09992;
+}  
+
+svg {
+   width:9px;
+   height:auto;
+   opacity:.5;
+   padding:1px;
+   display:block;
+   overflow:visible;
+   padding:none;
+}
+ 
+ 
+.controls a {
+   position:relative;
+   display:inline-block;
+   padding:1px;
+   margin:0 1px 0 2px;
+   width:12px;
+   height:12px;
+   fill:#7b7b7b;
+   border:none;
+}
+ 
+ 
+.controls a:hover {
+    border:none;
+}
+ 
+.controls .tag {
+   opacity:.93;
+}
+ 
+.controls .tag svg {
+   width:11px;
+   margin-top:-1px;
+   margin-left:-3px;
+}
+ 
+ 
+.controls .reblog {
+   opacity:.93;
+}
+ 
+.controls .reblog svg {
+   width:8px;
+   margin-top:0px;
+}
+ 
+.controls .like .liked + svg {
+   opacity:1;
+}
+ 
+.controls .like .liked + svg path {
+   fill:#ec5a5a;
+}
+ 
+.controls .like .like_button iframe {
+   position:absolute;
+   top:0;
+   left:0;
+   bottom:0;
+   right:0;
+   width:100%;
+   height:100%;
+   z-index:2;
+   opacity:0;
+}
+ 
+svg {
+    display:block;
+    width:10px;
+    height:auto;
+    opacity:.75;
+    overflow:visible;
+}
+svg path {
+    fill:rgb(132,132,132);
+    -webkit-transition:fill .6s ease-out;
+    transition:fill .6s ease-out;
+}
+.ic {
+    position:fixed;
+    top:15px;
+    right:16px;
+}
+#tumblr_controls,
+.tmblr-iframe.tmblr-iframe--desktop-logged-in-controls {
+    position:fixed!important;
+    top:0!important;
+    right:0!important;
+    opacity:0!important;
+    -webkit-filter:invert(100%);
+    -webkit-backface-visibility:hidden;
+    padding:10px 40px 10px 10px;
+    -webkit-transition:opacity .3s ease-out;
+    transition:opacity .3s ease-out;
+}
+#tumblr_controls:hover,
+.tmblr-iframe.tmblr-iframe--desktop-logged-in-controls:hover {
+    opacity:.5!important;
+}
+ 
+@-webkit-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@-moz-keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+.fade-in {
+   opacity:0;
+   -webkit-animation:fadeIn ease-in 1;
+   -moz-animation:fadeIn ease-in 1;
+   animation:fadeIn ease-in 1;
+   -webkit-animation-fill-mode:forwards;
+   -moz-animation-fill-mode:forwards;
+   animation-fill-mode:forwards;
+   -webkit-animation-duration:1s;
+   -moz-animation-duration:1s;
+   animation-duration:1s;}
+.fade-in.one {
+   -webkit-animation-delay:0s;
+   -moz-animation-delay:0s;
+   animation-delay:0s;}
+.fade-in.two {
+   -webkit-animation-delay:0.8s;
+   -moz-animation-delay:0.8s;
+   animation-delay:0.8s;}
+.fade-in.three {
+   -webkit-animation-delay:0.8s;
+   -moz-animation-delay:0.8s;
+   animation-delay:0.8s;}
+   
+.bts {
+text-align:center;cursor:help;
+}
+ 
+.myg {
+display:none;text-align:left;font-size:10px;margin-top:8px;position:fixed;background:transparent;color:#8c8c8c;width:auto;
+}
+ 
+.myg a {border:none;color:#8c8c8c;
+}
+
+.myg a:hover {color:#c09992
+;
+
+}
+
+.myg i {margin-right:10px;
+
+}
+ 
+.search .query {
+   border: 0;
+   outline: 0;
+   padding: 5px;
+   font-family: inherit;
+   font-size: inherit;margin-left:-4px;
+   color:#8c8c8c;text-align:left;
+   background:transparent;
+}
+
+::-webkit-input-placeholder {color: inherit;}
+:-moz-placeholder {color: inherit; opacity:1;}
+::-moz-placeholder {color: inherit; opacity:1;}
+:-ms-input-placeholder {color: inherit;}
+
+
+input:focus::-webkit-input-placeholder {color: transparent;}
+input:focus:-moz-placeholder {color: transparent;}
+input:focus::-moz-placeholder {color: transparent;}
+input:focus:-ms-input-placeholder { color: transparent;}
+
+
+#tab {width:100px; position:fixed; bottom:20px; left:20px; z-index:3; transition:all .5s ease;font-size:11px;}
+#tab:hover {transition:all .8s ease;}
+ 
+
+#tab_box {font-size:10px;position:relative; text-align:justify; opacity:0; transition:all .5s ease; margin:15px -200px 8px; width:150px;}
+#tab:hover #tab_box {opacity:1; transition:all 1s ease; margin:15px 0px 8px;}
+ 
+
+.border1 {width:20px; height:1px; background:#8c8c8c; position:absolute; margin-top:0px; transition:all .5s ease;}
+.border2 {width:20px; height:1px; background:#8c8c8c; position:absolute; margin-top:5px; transition:all .5s ease;}
+.border3 {width:20px; height:1px; background:#8c8c8c; position:absolute; margin-top:10px; transition:all .5s ease;}
+ 
+#tab:hover .border1 {margin-top:0px; width:50px; transition:all .9s ease;}
+#tab:hover .border2 {margin-top:0px; width:50px; margin-left:50px; transition:all .9s ease;}
+#tab:hover .border3 {margin-top:0px; width:40px; margin-left:70px; transition:all .9s ease;}
+ 
+.updates_title {padding-right:5px; text-align:left; background:#fff; color:#000; text-transform:uppercase; font-size:7.5px; transition:all .5s ease; position:absolute; font-weight:bold; width:auto; display:inline-block; margin-top:-6.5px; margin-left:-200px; opacity:0; letter-spacing:3px;}
+#tab:hover .updates_title {transition:all 1.5s ease; opacity:1; margin-left:0px;}
+ 
+
+#tab_border {height:1px; background:#eee; width:110px; position:relative; margin:8px 0px 8px;}
+ 
+/* UPDATES TAB #1 by https://wizardring.tumblr.com */
+
+#fade { 
+	display: none; 
+	background: #fff;
+	position: fixed; left: 0; top: 0;
+	width: 100%; height: 100%;
+	opacity:1;
+	z-index: 9999;
+}
+.popup_block{
+	display: none; 
+	background: #fff;
+	padding: 20px;
+	float: left;
+	font-size: 12px;
+	position: fixed;
+	bottom: 50%; left: 50%;
+	z-index: 99999;
+
+}
+
+*html #fade {
+	position: absolute;
+}
+*html .popup_block {
+	position: absolute;
+}
+
+</style>
+
+
+
+<script type="text/javascript" src="https://static.tumblr.com/3ikgvxs/0TGl4zgpu/jquery.min.js">
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$(".myg").hide();
+$(".bts").click(function(){
+$(this).next(".myg").slideToggle('fast');
+}); }); </script>
+
+<script>
+$(document).ready(function() {
+
+$('a.poplight[href^=#]').click(function() {
+var popID = $(this).attr('rel'); 
+var popURL = $(this).attr('href'); 
+var query= popURL.split('?');
+var dim= query[1].split('&');
+var popWidth = dim[0].split('=')[1]; 
+$('#' + popID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" class="close"></a>');
+var popMargTop = ($('#' + popID).height() + 80) / 2;
+var popMargLeft = ($('#' + popID).width() + 80) / 2;
+
+$('#' + popID).css({
+'margin-top' : -popMargTop,
+'margin-left' : -popMargLeft
+});
+$('body').append('<div id="fade"></div>');
+$('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); 
+return false;
+});
+$('a.close, #fade').live('click', function() {
+$('#fade , .popup_block').fadeOut(function() {
+$('#fade, a.close').remove(); 
+});
+return false;
+});
+});
+</script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src ="//static.tumblr.com/fwgzvyf/Oj1o08f6h/shythemes.vr.js"></script>
+<script src=“https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js”></script>
+
+<script type=“text/javascript” src=“https://codes.bitshare.cm/infinitescrolling.js”></script>
+
+</head>
+
+<body>
+
+<!-- UPDATES TAB #1 by https://wizardring.tumblr.com -->
+<div id="tab">
+        <div class="border1"></div>
+        <div class="border2"></div>
+        <div class="border3"></div>
+       
+<div class="updates_title">updates</div>
+
+<div id="tab_box">
+  <i>.</i><br><br>
+       <div id="tab_border"></div>
+xxx, xx, xx, xxx ;<br>strong <a>aesthetic</a> enthustiast, mostly aesthetic, some aesthetic and aesthetic. i already told i love being aesthetic? <br>
+
+<div id="tab_border"></div>
+ <script style="border:none;"language="JavaScript">var fhs = document.createElement('script');var fhs_id = "5136063";
+var ref = (''+document.referrer+'');var pn =  window.location;var w_h = window.screen.width + " x " + window.screen.height;
+fhs.src =  "https://freehostedscripts.net/ocounter.php?site="+fhs_id+"&e1=&e2=&r="+ref+"&wh="+w_h+"&a=1&pn="+pn+"";
+document.head.appendChild(fhs);document.write("<span id='o_"+fhs_id+"'></span>");
+</script>  time / <i>hora en arg </i><br><iframe src="https://free.timeanddate.com/clock/i92ee82r/n485/fs9/fc777" frameborder="0" width="62" height="16"></iframe><br>
+        hey! <a>contact me if you have questions </a> <script language="JavaScript">var fhsh = document.createElement('script');var fhs_id_h = "3330285";
+fhsh.src = "https://freehostedscripts.net/ocount.php?site="+fhs_id_h+"&name=%&a=1";
+document.head.appendChild(fhsh);document.write("<span id='h_"+fhs_id_h+"'></span>");
+</script>
+
+  <div id="tab_border"></div>
+ “...if he had a hundred moles like the one you have described, in him they would not be moles, but moons and shining stars.”
+
+<div id="tab_border"></div>
+
+</div>
+</div>
+
+<div id="con">
+
+<div class="sidebar fade-in">
+<div id="sidebarim"><img src="https://i.ibb.co/wSKbyMg/b016.png"></div>
+<div id="blogt"><a href="/">@birdy</a></div>
+<div id="description">ただ存在する<br>
+以上のことをする<br><br>
+mar. cats. arg.<br>books&music<br></div>
+
+
+<div id="links">
+<br>
+<a target="_blank" href="https://xat.com/blog" title="findme"><i style="border-bottom:3px solid #E3CAC3;color:#c09992;font-size:18px;" class="pe-7s-home"></i></a>
+<a target="_blank" href="https://forum.xat.com/profile/58610/" title="forum"><i style="border-bottom:3px solid #E3CAC3;color:#c09992;margin-left:-2px;font-size:18px;" class="pe-7s-chat"></i></a>
+<a target="_blank" href="https://xat.me/Dafos" title="mrr 🎔"><i style="border-bottom:3px solid #E3CAC3;color:#c09992;font-size:18px;" class="pe-7s-like"></i></a>
+<a class="bts" title="bbs"><i style="border-bottom:3px solid #E3CAC3;color:#c09992;font-size:18px;" class="pe-7s-more"></i></a>
+
+<div class="myg">
+<br>
+<i style="color:#c09992;font-size:10px;" class="lnr lnr-cross"></i>
+<a target="_blank" href="https://xat.me/Naez">best amix</a>
+<br>
+<i style="color:#c09992;font-size:10px;" class="lnr lnr-cross"></i>
+<a target="_blank" href="https://xat.me/1549742758">thom bro</a>
+<br>
+<i style="color:#c09992;font-size:10px;" class="lnr lnr-cross"></i>
+<a target="_blank" href="https://xat.me/Lobitha">lobitha</a>
+<br>
+<i style="color:#c09992;font-size:10px;" class="lnr lnr-cross"></i>
+<a target="_blank" href="https://i.ibb.co/yBs69Rz/hnghgh.gif" rel="03" class="poplight" title="xs">some xs if u wana choose (sometimes i sell/a veces vendo)</a>
+</div>
+</div>
+
+</div>
+
+</div>
+</body></html>
+<!-- partial -->
+  
+</body>
+</html>
