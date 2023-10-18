@@ -9,7 +9,13 @@
 <body>
 <!-- partial:index.partial.html -->
 <!DOCTYPE html><head>
-<script type="text/javascript">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+<link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="//fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+<script src="https://static.tumblr.com/2pnwama/DLppehqvd/feathericons.js"></script>
+
+<script src="//static.tumblr.com/gtjt4bo/oEQpu602h/glenplayer05-right.js"></script>
+	<script type="text/javascript">
   
 var colours=new Array('#ffefef', '#ffefef', '#def4f9', '#ffefef', '#def4f9'); 
 var minisize=16; 
@@ -695,6 +701,87 @@ input:focus:-ms-input-placeholder { color: transparent;}
 	position: absolute;
 }
 
+/*-------player-------*/
+:root {
+   --Music-Player-Position-From-Bottom:30px;
+   --Music-Player-Background:#121212;
+   --Music-Player-Padding:9px;
+   --Music-Player-Roundness:3px;
+   --Music-Title-Font-Size:11px;
+   --Music-Title-Color:#d0cdd8;
+   --Play-Pause-Buttons-Size:17px;
+   --Play-Pause-Buttons-Color:#d0cdd8;
+   --Headphones-Icon-Size:15px;
+   --Headphones-Icon-Color:#d0cdd8;
+}
+#glenjams-05 {
+  position:fixed;
+  bottom:0;margin-bottom:calc(var(--Music-Player-Position-From-Bottom) - 5px);
+  right:0;margin-right:0px;
+  z-index:99;
+}
+
+.nebula {
+  padding:5px 0;
+  cursor:default;
+}
+
+.suns {
+  padding:calc(var(--Music-Player-Padding) * 1.1) var(--Music-Player-Padding);
+  background:var(--Music-Player-Background);
+  border-radius:var(--Music-Player-Roundness) 0 0 var(--Music-Player-Roundness);
+  line-height:1em;
+}
+
+.suns, .m-txt {display:flex;}
+
+.suns > *, .m-txt > * {
+  align-self:center;
+  -webkit-align-self:center;
+}
+
+.headphones {
+  margin-right:-1px;
+  padding:0 calc(var(--Music-Player-Padding) / 2);
+}
+
+.headphones svg {
+  width:var(--Headphones-Icon-Size);
+  height:var(--Headphones-Icon-Size);
+  color:var(--Headphones-Icon-Color);
+}
+
+.mm {display:none;}
+
+.music-controls {
+  margin-left:calc((var(--Music-Player-Padding) / 2) - 1px);
+  margin-right:.5px;
+  user-select:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  cursor:pointer;
+}
+
+.music-controls .material-icons {
+  margin:0 1px;
+  font-size:var(--Play-Pause-Buttons-Size);
+  color:var(--Play-Pause-Buttons-Color);
+  cursor:pointer;
+}
+
+.pausee {display:none;}
+
+.beff {display:none;}
+.aff {display:block;}
+
+.music-name {
+  padding:0 calc(var(--Music-Player-Padding) / 2);
+  font-family:work sans;
+  font-size:var(--Music-Title-Font-Size);
+  color:var(--Music-Title-Color);
+}
+	
 </style>
 
 
@@ -789,7 +876,6 @@ document.head.appendChild(fhsh);document.write("<span id='h_"+fhs_id_h+"'></span
 以上のことをする<br><br>
 mar. cats. arg.<br>books&music<br></div>
 
-
 <div id="links">
 <br>
 <a target="_blank" href="https://xat.com/blog" title="findme"><i style="border-bottom:3px solid #E3CAC3;color:#c09992;font-size:18px;" class="pe-7s-home"></i></a>
@@ -812,10 +898,29 @@ mar. cats. arg.<br>books&music<br></div>
 <a target="_blank" href="https://i.ibb.co/yBs69Rz/hnghgh.gif" rel="03" class="poplight" title="xs">some xs if u wana choose (sometimes i sell/a veces vendo)</a>
 </div>
 </div>
-
+</div>
 </div>
 
-</div>
+
+<div id="glenjams-05">
+<div class="nebula">
+   <div class="suns">
+       <div class="headphones"><i data-feather="headphones"></i></div>
+       <div class="mm">
+       <div class="m-txt">
+           <div class="music-controls">
+           <a class="fire">
+           <i class="material-icons playy">play_arrow</i>
+           <i class="material-icons pausee">pause</i>
+           </a>
+       </div><!--music-controls-->
+       <div class="music-name">TV Girl</div>
+       </div><!--m-txt-->
+       </div><!--mm-->
+   </div><!--suns-->
+</div><!--nebula-->
+</div><!--glenjams-05-->
+<audio id="audio" src="https://drive.google.com/uc?export=download&id=163MzH7FADIYnaLQuMv113GwQWNPP_ifh" type="audio"></audio>
 </body></html>
 <!-- partial -->
   
