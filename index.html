@@ -671,8 +671,6 @@ input:focus:-ms-input-placeholder { color: transparent;}
  
 
 #tab_border {height:1px; background:#eee; width:110px; position:relative; margin:8px 0px 8px;}
- 
-/* UPDATES TAB #1 by https://wizardring.tumblr.com */
 
 #fade { 
 	display: none; 
@@ -699,87 +697,6 @@ input:focus:-ms-input-placeholder { color: transparent;}
 }
 *html .popup_block {
 	position: absolute;
-}
-
-/*-------player-------*/
-:root {
-   --Music-Player-Position-From-Bottom:30px;
-   --Music-Player-Background:#121212;
-   --Music-Player-Padding:9px;
-   --Music-Player-Roundness:3px;
-   --Music-Title-Font-Size:11px;
-   --Music-Title-Color:#d0cdd8;
-   --Play-Pause-Buttons-Size:17px;
-   --Play-Pause-Buttons-Color:#d0cdd8;
-   --Headphones-Icon-Size:15px;
-   --Headphones-Icon-Color:#d0cdd8;
-}
-#glenjams-05 {
-  position:fixed;
-  bottom:0;margin-bottom:calc(var(--Music-Player-Position-From-Bottom) - 5px);
-  right:0;margin-right:0px;
-  z-index:99;
-}
-
-.nebula {
-  padding:5px 0;
-  cursor:default;
-}
-
-.suns {
-  padding:calc(var(--Music-Player-Padding) * 1.1) var(--Music-Player-Padding);
-  background:var(--Music-Player-Background);
-  border-radius:var(--Music-Player-Roundness) 0 0 var(--Music-Player-Roundness);
-  line-height:1em;
-}
-
-.suns, .m-txt {display:flex;}
-
-.suns > *, .m-txt > * {
-  align-self:center;
-  -webkit-align-self:center;
-}
-
-.headphones {
-  margin-right:-1px;
-  padding:0 calc(var(--Music-Player-Padding) / 2);
-}
-
-.headphones svg {
-  width:var(--Headphones-Icon-Size);
-  height:var(--Headphones-Icon-Size);
-  color:var(--Headphones-Icon-Color);
-}
-
-.mm {display:none;}
-
-.music-controls {
-  margin-left:calc((var(--Music-Player-Padding) / 2) - 1px);
-  margin-right:.5px;
-  user-select:none;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  cursor:pointer;
-}
-
-.music-controls .material-icons {
-  margin:0 1px;
-  font-size:var(--Play-Pause-Buttons-Size);
-  color:var(--Play-Pause-Buttons-Color);
-  cursor:pointer;
-}
-
-.pausee {display:none;}
-
-.beff {display:none;}
-.aff {display:block;}
-
-.music-name {
-  padding:0 calc(var(--Music-Player-Padding) / 2);
-  font-family:work sans;
-  font-size:var(--Music-Title-Font-Size);
-  color:var(--Music-Title-Color);
 }
 	
 </style>
@@ -835,7 +752,6 @@ return false;
 
 <body>
 
-<!-- UPDATES TAB #1 by https://wizardring.tumblr.com -->
 <div id="tab">
         <div class="border1"></div>
         <div class="border2"></div>
@@ -911,14 +827,14 @@ mar. cats. arg.<br>books&music<br></div>
     --MusicPlayer-Position:bottom right;
     --MusicPlayer-Edge-Offset:18px;
     --MusicPlayer-Buttons-Size:14px;
-    --MusicPlayer-Buttons-Color:#fff;
+    --MusicPlayer-Buttons-Color:#e3cac3;
     --MusicPlayer-Buttons-Fill:no; 
     --MusicPlayer-Note-Size:11px;
-    --MusicPlayer-Note-Color:#fff;
+    --MusicPlayer-Note-Color:#e3cac3;
     --MusicPlayer-Spacing-1:10px;
     --MusicPlayer-Spacing-2:10px;
     --MusicPlayer-Text-Size:10px;
-    --MusicPlayer-Text-Color:#fff;
+    --MusicPlayer-Text-Color:#e3cac3;
 }
 </style>
 
